@@ -8,6 +8,7 @@ gitpod_url = cmnd.read().strip()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:admin@{gitpod_url}/users'
+app.config['DEBUG'] = True
 db = SQLAlchemy(app)
 
 class Person(db.Model):
@@ -18,7 +19,7 @@ class Person(db.Model):
     email = db.Column(db.String(250), nullable=False)
 
 # from models import Person
-db.create_all()
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -30,4 +31,5 @@ def register():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0")
+    db.create_all()
